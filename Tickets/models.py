@@ -5,7 +5,7 @@ from Flights.models import Flight
 from Hotel.models import Hotel
 import uuid
 
-
+# ****************************************************************
 class ReservationBase(models.Model):
     id = models.UUIDField(primary_key = True,default = uuid.uuid4,editable = False)
     owner = models.CharField(max_length=50)
