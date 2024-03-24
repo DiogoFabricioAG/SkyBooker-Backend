@@ -11,6 +11,10 @@ class Hotel(models.Model):
     image = models.ImageField(upload_to="hotel/")
 
     @property
+    def getCountry(self):
+        return self.country.name
+
+    @property
     def get_image(self):
         if self.image:
             return "http://127.0.0.1:8000" + self.image.url

@@ -14,7 +14,14 @@ class Company(models.Model):
             return "http://127.0.0.1:8000" + self.banner.url 
 
     @property
+    def getCountry(self):
+        return self.country.name
+
+    @property
     def get_flag(self):
         return "http://127.0.0.1:8000" + self.country.flag
     class Meta:
         verbose_name_plural = "Companies"
+
+    def __str__(self) -> str:
+        return self.name
