@@ -31,8 +31,9 @@ class Ticket(ReservationBase):
         (VIP,"VIP")
     )
     rank = models.CharField(choices = CHOICES_RANK, max_length = 10, default = TOURIST)
+    seat = models.CharField(max_length=10)
     def __str__(self):
-        return "Ticket: "+self.owner + "("+self.flight.fcountry.name+" -> "+self.flight.tcountry.name+")"
+        return "Ticket: "+ self.owner + " ("+self.flight.fcountry.name+" -> "+self.flight.tcountry.name+")"
     
 class Booking(ReservationBase):
     hotel = models.ForeignKey(Hotel,related_name = "bookings",on_delete = models.CASCADE)
