@@ -39,5 +39,6 @@ class Booking(ReservationBase):
     hotel = models.ForeignKey(Hotel,related_name = "bookings",on_delete = models.CASCADE)
     date = models.DateField()
     days = models.IntegerField()
+    room = models.CharField(max_length=10)
     def __str__(self) -> str:
         return f"{self.owner}'s Reservation for {self.hotel.name}" 
