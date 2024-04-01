@@ -18,7 +18,7 @@ class ReservationBase(models.Model):
         (USED,"Used"),
         (INACTIVE,"Inactive"),
     )
-    state = models.CharField(choices = CHOICES_STATE, max_length = 15, default = ACTIVE)
+    state = models.CharField(choices = CHOICES_STATE, max_length = 15, default = INACTIVE)
     class Meta:
         abstract = True
 

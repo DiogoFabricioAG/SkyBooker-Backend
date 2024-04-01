@@ -5,4 +5,5 @@ urlpatterns = [
     path("booking/<uuid:id>/",api.get_booking,name="get_booking"),
     path("booking/create/<uuid:id>/",api.make_booking,name="make_booking"),
     path("flight/create/<uuid:id>/",api.sell_ticket,name="sell_ticket"),
+    path("flight/confirm/<str:email>/",api.confirm_flight,name="confirm_flight")
 ]

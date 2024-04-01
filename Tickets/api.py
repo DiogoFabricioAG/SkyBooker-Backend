@@ -6,7 +6,7 @@ from .models import Ticket,Booking
 from Hotel.models import Hotel
 from django.http import JsonResponse
 from datetime import datetime
-
+from django.core.mail import send_mail
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def get_tickets(request,id,format=None):
@@ -29,8 +29,26 @@ def sell_ticket(request,id,format=None):
     flight= Flight.objects.get(pk = id)
     for seat_code  in request.data['seats']:
         Ticket.objects.create(owner=request.data['name'],flight=flight,email=request.data['email'],seat=seat_code)
-    return JsonResponse({"message":"Recibido y Creado"})
+    url = f"http://localhost:5173/flight/confirm?email={request.data['email']}"
+    # send_mail(
+    #     "Confirmación de vuelo",
+    #     f"Su vuelo esta casi listo introduzca este link {url} y su compra se habra hecho oficial.",
+    #     "skyBooker@official.com",
+    #     [request.data['email']],
+    #     fail_silently=False,
+    # )
+    print(f"Correo electrónico a enviar a {request.data['email']}:")
+    print(f"Asunto: Confirmación de vuelo")
+    print(f"Cuerpo del mensaje: Su vuelo está casi listo. Introduzca este enlace {url} y su compra se habrá hecho oficial.")
 
+    return JsonResponse({"message":"Recibido y creado la orden de pago"})
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def confirm_flight(request,email):
+    flight_to_confirm = Ticket.objects.filter(email = email,state = "Inactive").update(state="Active")
+    return JsonResponse({"message":"Vuelo confirmado gracias por tu compra 😊"})
+    
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def make_booking(request,id,format=None):
