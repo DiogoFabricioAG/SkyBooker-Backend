@@ -6,9 +6,9 @@ class TicketSerializer(serializers.ModelSerializer):
     flight = FlightSerializer(read_only =True)
     class Meta:
         model = Ticket
-        fields = ("id","owner","email","state","flight","rank","seat")
+        fields = ("id","owner","email","state","flight","code","rank","seat")
 class BookingSerializer(serializers.ModelSerializer):
     hotel = HotelSerializer(read_only =True)
     class Meta:
         model = Booking
-        fields = ("id","owner","email","state","hotel","date","days","room")
+        fields = ("id","owner","email","state","hotel","date","code","days","room")
