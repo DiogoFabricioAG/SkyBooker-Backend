@@ -9,4 +9,6 @@ urlpatterns = [
     path("flight/confirm/<str:email>/",api.confirm_flight,name="confirm_flight"),
     path("flight/cancel/",api.flight_details_by_code_and_email,name="flight_details_by_code_and_email"),
     path("flight/delete/<uuid:id>/",api.delete_tickets_by_id,name="delete_tickets_by_id"),
+    path("booking/cancel/",api.booking_details_by_code_and_email,name="booking_details_by_code_and_email"),
+    path("booking/delete/<uuid:id>/",api.delete_bookings_by_id,name="delete_bookings_by_id"),
 ]

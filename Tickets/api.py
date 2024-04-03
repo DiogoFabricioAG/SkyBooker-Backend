@@ -26,9 +26,14 @@ def get_tickets(request,id,format=None):
 @permission_classes([AllowAny])
 def get_booking(request,id,format=None):
     hotel = Hotel.objects.get(pk = id)
-    all_tickets = hotel.bookings.all()
-    serializer = BookingSerializer(all_tickets,many = True)
-    return JsonResponse(serializer.data, safe=False) 
+    all_tickets_active = hotel.bookings.filter(state="Active")
+    serializer_active = BookingSerializer(all_tickets_active,many = True)
+    all_tickets_inactive = hotel.bookings.filter(state="Inactive")
+    serializer_inactive = BookingSerializer(all_tickets_inactive,many = True)
+    return JsonResponse({
+        "active":serializer_active.data,
+        "inactive":serializer_inactive.data,
+    }, safe=False)
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
@@ -48,7 +53,7 @@ def sell_ticket(request,id,format=None):
     # )
     print(f"Correo electrónico a enviar a {request.data['email']}:")
     print(f"Asunto: Confirmación de vuelo")
-    print(f"Cuerpo del mensaje: Su vuelo está casi listo. Introduzca este enlace {url} y su compra se habrá hecho oficial.\n Codigo: {code}")
+    print(f"Cuerpo del mensaje: Su vuelo está casi listo. Introduzca este enlace {url} y su compra se habrá hecho oficial.\nCodigo: {code}")
 
     return JsonResponse({"message":"Recibido y creado la orden de pago"})
 
@@ -71,6 +76,22 @@ def delete_tickets_by_id(request,id):
     ticket.delete()
     return JsonResponse({"message":"Eliminado"})
 
+@api_view(["DELETE"])
+@permission_classes([AllowAny])
+def delete_bookings_by_id(request,id):
+    booking = Booking.objects.get(pk = id)
+    booking.delete()
+    return JsonResponse({"message":"Eliminado"})
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def booking_details_by_code_and_email(request):
+    code=request.data['code']
+    email = request.data['email']
+    Booking_inactive = Booking.objects.filter(state = "Inactive",email=email,code=code)
+    serializer = BookingSerializer(Booking_inactive,many=True)
+    return JsonResponse(serializer.data,safe=False)
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
