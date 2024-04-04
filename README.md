@@ -11,3 +11,5 @@ pip install -r requirements.txt
 python ./manage.py migrate
 python ./manage.py runserver
 ```
+![image](https://github.com/DiogoFabricioAG/SkyBooker-Backend/assets/126220077/2cdaca91-91ab-46ed-9a86-35856d4be406)
+
